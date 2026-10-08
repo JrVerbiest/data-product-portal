@@ -20,33 +20,33 @@ export function OutputPortDescription({ lifecycle, description, data_product, do
     const { token } = theme.useToken();
 
     return (
-        <Flex vertical gap="medium">
-            <Flex wrap gap="12px 36px">
-                <Space>
+        <Flex vertical gap="middle">
+            <Space size="large" wrap>
+                <Flex gap="small">
                     <Typography.Text strong>{t('Data Product')}</Typography.Text>
                     <Link to={createDataProductIdPath(data_product.id)}>
                         <Typography.Text style={{ color: token.colorPrimary }}>{data_product.name}</Typography.Text>
                     </Link>
-                </Space>
+                </Flex>
 
-                <Space>
+                <Flex gap="small">
                     <Typography.Text strong>{t('Domain')}</Typography.Text>
                     <Typography.Text>{domain}</Typography.Text>
-                </Space>
+                </Flex>
 
-                <Space>
+                <Flex gap="small">
                     <Typography.Text strong>{t('Status')}</Typography.Text>
                     <Tag color={lifecycle?.color ?? 'default'}>{lifecycle?.name || t('Unknown')}</Tag>
-                </Space>
+                </Flex>
 
-                <Space>
+                <Flex gap="small">
                     <Typography.Text strong>{t('Namespace')}</Typography.Text>
                     <Typography.Text>{namespace}</Typography.Text>
-                </Space>
-            </Flex>
+                </Flex>
+            </Space>
 
             {tags.length > 0 && (
-                <Space wrap>
+                <Space size="small" wrap>
                     {tags.map((tag) => (
                         <Tag color={tag.rolled_up ? 'red' : 'success'} key={tag.id}>
                             {tag.value}
@@ -55,7 +55,7 @@ export function OutputPortDescription({ lifecycle, description, data_product, do
                 </Space>
             )}
 
-            {description && <Typography.Text italic>{description}</Typography.Text>}
+            {description && <Typography.Paragraph italic>{description}</Typography.Paragraph>}
         </Flex>
     );
 }

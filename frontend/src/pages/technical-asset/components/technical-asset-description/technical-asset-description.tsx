@@ -24,22 +24,22 @@ export function TechnicalAssetDescription({ status, type, description, tags, nam
     const { data: { plugins } = {} } = useGetPluginsQuery();
 
     return (
-        <Flex vertical gap="medium">
-            <Flex wrap gap="12px 36px">
-                <Space>
+        <Flex vertical gap="middle">
+            <Space size="large" wrap>
+                <Flex gap="small">
                     <Typography.Text strong>{t('Status')}</Typography.Text>
                     <Badge status={getBadgeStatus(status)} text={getStatusLabel(t, status)} />
-                </Space>
-                <Space>
+                </Flex>
+                <Flex gap="small">
                     <Typography.Text strong>{t('Namespace')}</Typography.Text>
                     <Typography.Text>{namespace}</Typography.Text>
-                </Space>
-                <Space>
+                </Flex>
+                <Flex gap="small">
                     <Typography.Text strong>{t('Type')}</Typography.Text>
                     <Typography.Text>{getTechnicalAssetType(type, plugins, t)}</Typography.Text>
-                </Space>
+                </Flex>
                 <AccessModesField accessModes={accessModes} />
-            </Flex>
+            </Space>
             <Space size="small">
                 {tags.map((tag) => (
                     <Tag color="success" key={tag.id}>
@@ -47,9 +47,7 @@ export function TechnicalAssetDescription({ status, type, description, tags, nam
                     </Tag>
                 ))}
             </Space>
-            <Space>
-                <Typography.Paragraph italic>{description}</Typography.Paragraph>
-            </Space>
+            <Typography.Paragraph italic>{description}</Typography.Paragraph>
         </Flex>
     );
 }
