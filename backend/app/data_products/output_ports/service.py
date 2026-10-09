@@ -487,7 +487,7 @@ class OutputPortService:
                 new_tags = self._fetch_tags(v)
                 current_output_port.tags = new_tags
             else:
-                setattr(current_output_port, k, v) if v else None
+                setattr(current_output_port, k, v)
         self.db.flush()
         if access_function_changed:
             self._sync_public_reader_grouping(

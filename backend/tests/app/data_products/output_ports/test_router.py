@@ -348,6 +348,42 @@ class TestOutputPortRouter:
         assert updated_dataset.status_code == 200
         assert updated_dataset.json()["id"] == str(ds.id)
 
+    def test_update_output_port__clears_lifecycle_when_null(
+        self, client, session, seed_time_bound_access_durations
+    ):
+        from tests.factories import LifecycleFactory
+
+        user = UserFactory(external_id=settings.DEFAULT_USERNAME)
+        role = RoleFactory(
+            scope=Scope.DATASET,
+            permissions=[AuthorizationAction.OUTPUT_PORT__UPDATE_PROPERTIES],
+        )
+        lifecycle = LifecycleFactory()
+        ds = OutputPortFactory(lifecycle=lifecycle)
+        DatasetRoleAssignmentFactory(
+            user_id=user.id, role_id=role.id, output_port_id=ds.id
+        )
+
+        update_payload = {
+            "name": "new_name",
+            "namespace": "new_namespace",
+            "description": "new_description",
+            "tag_ids": [],
+            "access_type_id": access_type_id(OutputPortAccessFunction.RESTRICTED),
+            "data_product_access_duration_type": AccessDurationType.TIME_BOUND.value,
+            "exploration_access_duration_type": AccessDurationType.TIME_BOUND.value,
+            "lifecycle_id": None,
+        }
+
+        response = self.update_output_port(
+            client, ds.data_product.id, ds.id, update_payload
+        )
+
+        assert response.status_code == 200
+        session.expire_all()
+        output_port = session.get(OutputPortFactory._meta.model, ds.id)
+        assert output_port.lifecycle_id is None
+
     def test_update_output_port__access_type(
         self, client, session, seed_time_bound_access_durations
     ):

@@ -337,7 +337,7 @@ class TechnicalAssetService:
                 new_tags = self._get_tags(v)
                 current_technical_asset.tags = new_tags
             else:
-                setattr(current_technical_asset, k, v) if v else None
+                setattr(current_technical_asset, k, v)
 
         self.db.flush()
         return UpdateTechnicalAssetResponse(id=current_technical_asset.id)

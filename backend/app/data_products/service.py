@@ -344,7 +344,7 @@ class DataProductService(AbstractDataProductService):
                 visibility_change = current_data_product.visibility
                 setattr(current_data_product, k, v)
             else:
-                setattr(current_data_product, k, v) if v else None
+                setattr(current_data_product, k, v)
 
         if visibility_change is not None:
             self._sync_public_reader_grouping(
